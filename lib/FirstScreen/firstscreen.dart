@@ -1,6 +1,9 @@
+import 'package:covid_tracker/FAQ%20Screen/faqScreen.dart';
 import 'package:covid_tracker/FirstScreen/News/news.dart';
 import 'package:covid_tracker/FirstScreen/Symptoms/symptoms.dart';
 import 'package:covid_tracker/FirstScreen/TeleHelth/telehealth.dart';
+import 'package:covid_tracker/HomeScreen/homeScreen.dart';
+import 'package:covid_tracker/QR%20Screen/qrScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -13,13 +16,7 @@ class firstscreen extends StatefulWidget {
 
 class _firstscreenState extends State<firstscreen>
     with TickerProviderStateMixin {
-  TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 3, vsync: this);
-  }
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -77,55 +74,54 @@ class _firstscreenState extends State<firstscreen>
             SizedBox(
               height: 30,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    color: Color(0xFF16171A)),
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: TabBar(
-                    unselectedLabelColor: Color(0xFF747474),
-                    labelColor: Color(0xFFFFFFFF),
-                    labelStyle: GoogleFonts.poppins(
-                        fontSize: 15, fontWeight: FontWeight.w500),
-                    tabs: [
-                      Tab(
-                        text: 'News',
-                      ),
-                      Tab(
-                        text: 'TeleHealth',
-                      ),
-                      Tab(
-                        text: 'Pharmacy',
-                      )
-                    ],
-                    controller: _tabController,
-                    indicator: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: Color(0xff333764),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Expanded(
-              child: TabBarView(
-                children: [
-                  news(),
-                  telehealth(),
-                  symptoms(),
-                ],
-                controller: _tabController,
-              ),
-            ),
+            Expanded(child: buildPages())
           ],
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Color(0xff333764),
+          currentIndex: _currentIndex,
+          selectedItemColor: Color(0xFFFFFFFF),
+          showSelectedLabels: true,
+          showUnselectedLabels: false,
+          unselectedItemColor: Color(0xFF747474),
+          onTap: _onItemTapped,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.home,
+                ),
+                label: "Home"),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.qr_code_scanner,
+                ),
+                label: "QR Scanner"),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.chat,
+                ),
+                label: "FAQ"),
+          ]),
     );
+  }
+
+  Widget buildPages() {
+    switch (_currentIndex) {
+      case 1:
+        return qrScreen();
+      case 2:
+        return faqScreen();
+
+      case 0:
+      default:
+        return home();
+    }
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
   }
 }

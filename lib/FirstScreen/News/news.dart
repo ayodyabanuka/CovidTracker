@@ -82,24 +82,6 @@ class _newsState extends State<news> {
                     SizedBox(
                       height: 10,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        CovidCounter(
-                          color: Color(0x70D01EE0),
-                          counter: snapshot.data.underinvestigation,
-                          title: 'Under Investigation',
-                        ),
-                        CovidCounter(
-                          color: Color(0x70C4A82E),
-                          counter: snapshot.data.activecases,
-                          title: 'Active Cases',
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
                     Text(
                       'Newest update ${DateFormat.yMMMMd('en_US').format(updatedAt)}',
                       style: GoogleFonts.poppins(

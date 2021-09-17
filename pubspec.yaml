@@ -33,6 +33,7 @@ dependencies:
   http:
   number_display:
   intl: ^0.16.1
+  qr_code_scanner: ^0.5.2
 
 dev_dependencies:
   flutter_test:
